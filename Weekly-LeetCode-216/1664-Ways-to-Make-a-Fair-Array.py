@@ -1,25 +1,23 @@
-# TLE
-class Solution1:
+#Prefix sum Medium
+class Solution:
     def waysToMakeFair(self, nums: List[int]) -> int:
-        count = 0
-        for i in range(len(nums)):
-            newArr = nums[:i] + nums[i+1:]
-            print(newArr)
+        n = len(nums)
+        
+        o_pref, e_pref = [0] * (n+1), [0] * (n+1)
+        
+        for i, num in enumerate(nums):
+            o_pref[i] += o_pref[i-1]
+            e_pref[i] += e_pref[i-1]
             
-            if self.fair(newArr):
-                count += 1
-                
-        
-        return count 
-    
-    def fair(self, newArr):
-        even = 0 
-        odd  = 0
-        
-        for i in range(len(newArr)):
             if i % 2 == 0:
-                even += newArr[i]
+                e_pref[i] += num
             else:
-                odd += newArr[i]
-                
-        return even == odd
+                o_pref[i] += num
+        
+        result = 0
+        for i, num in enumerate(nums):
+            e_after_removed = e_pref[i-1] + o_pref[n-1] - o_pref[i]
+            o_after_removed = o_pref[i-1] + e_pref[n-1] - e_pref[i]
+            result += (e_after_removed == o_after_removed)
+        
+        return result
