@@ -1,4 +1,4 @@
-#Prefix sum Medium
+#Prefix sum Med-Hard
 class Solution:
     def waysToMakeFair(self, nums: List[int]) -> int:
         n = len(nums)
